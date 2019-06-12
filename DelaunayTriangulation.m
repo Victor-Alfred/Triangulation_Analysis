@@ -50,9 +50,5 @@ end
 % Writing graphs for individual images
 %Centroid positions
 
-cd (result_dir)
-Output_Graph = [num2str(g),'_centroid positions.tif'];
-hold off
-print(image1, '-dtiff', '-r300', Output_Graph);
 
 
