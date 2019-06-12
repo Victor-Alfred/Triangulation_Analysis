@@ -12,11 +12,21 @@ cd(filedir);
 %Folders with thresholded images in tif8 format
 files_tif = dir('*.tif');
 
-%Folder to save information 
-if exist([filedir, '/DT_analysis'],'dir') == 0
-    mkdir(filedir,'/DT_analysis');
+%Folders to save information 
+if exist([filedir, '/DT_centroids'],'dir') == 0
+    mkdir(filedir,'/DT_centroids');
 end
-result_dir = [filedir, '/DT_analysis'];
+result_dir1 = [filedir, '/DT_centroids'];
+
+if exist([filedir, '/DT_centroids_BW_image'],'dir') == 0
+    mkdir(filedir, '/DT_centroids_BW_image');
+end
+result_dir2 = [filedir, '/DT_centroids_BW_image'];
+
+if exist([filedir, '/DT_triplot'],'dir') == 0
+    mkdir(filedir, '/DT_triplot');
+end
+result_dir3 = [filedir, '/DT_triplot'];
 
 
 for g=1:numel(files_tif)
@@ -33,22 +43,49 @@ for g=1:numel(files_tif)
 	% converting from array to column vector
 	x_centroid = x_centroid(:);
 	y_centroid = y_centroid(:);
-	% image1 shows centroid positions
-	image1 = figure, plot(x_centroid, y_centroid, 'b*');
+	% perform delaunay traingulation analysis
+	DT = delaunayTriangulation(x_centroid, y_centroid);
+
+	% image1 saves centroid positions, with csv file
+	image1 = figure;
+	plot(x_centroid, y_centroid, 'b*');
 	ax = gca;
 	ax.YDir = 'reverse'
-	hold off
 
+	%image2 shows centroid positions overlaid on binary image
+	image2 = figure;
+	imshow(I_im)
+	hold on
+	plot(x_centroid, y_centroid, 'b*')
+	ax = gca
+	ax.YDir = 'reverse'
 
-	
-	cd (result_dir)
-	Output_Graph = [num2str(g),'_centroid positions.tif'];
+	%image3 triplot of DT analysis using centroid positions
+	image3 =figure;
+	triplot(DT)
+	hold on
+	plot(x_centroid, y_centroid, 'r*')
+	ax = gca
+	ax.YDir = 'reverse'
+
+	% writing graphs to file
+	cd (result_dir1)
+	Output_Graph = [num2str(g),'_centroids.tif'];
 	hold off
 	print(image1, '-dtiff', '-r300', Output_Graph);
+
+	cd (result_dir2)
+	Output_Graph = [num2str(g),'_centroids_BW_image.tif'];
+	hold off
+	print(image2, '-dtiff', '-r300', Output_Graph)
+
+	cd (result_dir3)
+	Output_Graph = [num2str(g),'_DT_triplot.tif'];
+	hold off
+	print(image3, '-dtiff', '-r300', Output_Graph)
+	
 end
 
-% Writing graphs for individual images
-%Centroid positions
 
 
 
