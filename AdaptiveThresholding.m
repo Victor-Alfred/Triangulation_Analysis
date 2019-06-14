@@ -20,14 +20,14 @@ end
 result_dir = [filedir, '/Threshold_img'];
 
 
-% define the sensitivity value to be used for adaptive thresholding
+%% define the sensitivity value to be used for adaptive thresholding
 sensitivity = inputdlg('Please enter threshold sensitivity between 0 and 1: ','sensitivity');
  while (isnan(str2double(sensitivity)) || str2double(sensitivity)<0 || str2double(sensitivity)>1)
      sensitivity = inputdlg('Please enter threshold sensitivity between 0 and 1: ','sensitivity');
 end
 sensitivity = str2double(sensitivity);
 
-% performs adaptive thresholding on images using value defined above
+%% performs adaptive thresholding on images using value defined above
 for g=1:numel(files_tif)
 	cd(filedir);
 	I = [num2str(g),'.tif'];

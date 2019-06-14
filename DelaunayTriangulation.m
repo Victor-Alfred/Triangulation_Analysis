@@ -33,7 +33,7 @@ if exist([filedir, '/DT_edgeLens'],'dir') == 0
 end
 result_dir4 = [filedir, '/DT_edgeLens'];
 
-
+%% Analysing each image
 for g=1:numel(files_tif)
 	cd(filedir);
 	I = [num2str(g),'.tif'];
@@ -109,16 +109,14 @@ for g=1:numel(files_tif)
 	hold off
 	print(image3, '-dtiff', '-r300', Output_Graph)
 
-	%cd(result_dir4)
-	%Output_Graph = [num2str(g),'_DT_edgeLens.tif'];
-	%hold off
-	%print(image4, '-dtiff', '-r300', Output_Graph)
+	cd(result_dir4)
+	Output_Graph = [num2str(g),'_DT_edgeLens.tif'];
+	hold off
+	print(image4, '-dtiff', '-r300', Output_Graph)
 
 	% write edge lengths to csv file
 	csvwrite([num2str(g),'_DT_edgeLens.csv'], edgeLens)
 
 end
-
-
 
 
