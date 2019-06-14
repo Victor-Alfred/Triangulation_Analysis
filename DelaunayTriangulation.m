@@ -89,14 +89,15 @@ for g=1:numel(files_tif)
 	end
 	hold off
 
-	% write edge lengths to csv file
-	csvwrite([num2str(g),'_DT_edgeLens.csv'], edgeLens)
-
 	% writing graphs to file
 	cd(result_dir1)
 	Output_Graph = [num2str(g),'_centroids.tif'];
 	hold off
 	print(image1, '-dtiff', '-r300', Output_Graph);
+
+	% write centroid xy positions to csv file
+	centroid_xy = [x_centroid, y_centroid];
+	csvwrite([num2str(g),'_centroid_xy.csv'], centroid_xy)
 
 	cd(result_dir2)
 	Output_Graph = [num2str(g),'_centroids_BW_image.tif'];
@@ -108,10 +109,13 @@ for g=1:numel(files_tif)
 	hold off
 	print(image3, '-dtiff', '-r300', Output_Graph)
 
-	cd(result_dir4)
-	Output_Graph = [num2str(g),'_DT_edgeLens.tif'];
-	hold off
-	print(image4, '-dtiff', '-r300', Output_Graph)
+	%cd(result_dir4)
+	%Output_Graph = [num2str(g),'_DT_edgeLens.tif'];
+	%hold off
+	%print(image4, '-dtiff', '-r300', Output_Graph)
+
+	% write edge lengths to csv file
+	csvwrite([num2str(g),'_DT_edgeLens.csv'], edgeLens)
 
 end
 
