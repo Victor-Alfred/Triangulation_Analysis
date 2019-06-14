@@ -28,6 +28,11 @@ if exist([filedir, '/DT_triplot'],'dir') == 0
 end
 result_dir3 = [filedir, '/DT_triplot'];
 
+if exist([filedir, '/DT_edgeLens'],'dir') == 0
+    mkdir(filedir, '/DT_edgeLens');
+end
+result_dir4 = [filedir, '/DT_edgeLens'];
+
 
 for g=1:numel(files_tif)
 	cd(filedir);
@@ -68,22 +73,46 @@ for g=1:numel(files_tif)
 	ax = gca
 	ax.YDir = 'reverse'
 
+	image4 = figure; 
+	triplot(DT)
+	hold on 
+	ax = gca
+	ax.YDir = 'reverse'
+	edges = DT.edges;
+	edgeLens = zeros(size(edges,1),1);
+	for i = 1:size(edges,1)
+	    thisEdgePts = DT.Points(edges(i,:),:);
+	    edgeCpt = mean(thisEdgePts,1);
+	    edgeLen = sqrt(sum(diff(thisEdgePts,[],1).^2));
+	    edgeLens(i) = edgeLen;
+	    text(edgeCpt(1),edgeCpt(2),sprintf('%0.1f',edgeLen),'HorizontalAlignment','center')
+	end
+	hold off
+
+	% write edge lengths to csv file
+	csvwrite([num2str(g),'_DT_edgeLens.csv'], edgeLens)
+
 	% writing graphs to file
-	cd (result_dir1)
+	cd(result_dir1)
 	Output_Graph = [num2str(g),'_centroids.tif'];
 	hold off
 	print(image1, '-dtiff', '-r300', Output_Graph);
 
-	cd (result_dir2)
+	cd(result_dir2)
 	Output_Graph = [num2str(g),'_centroids_BW_image.tif'];
 	hold off
 	print(image2, '-dtiff', '-r300', Output_Graph)
 
-	cd (result_dir3)
+	cd(result_dir3)
 	Output_Graph = [num2str(g),'_DT_triplot.tif'];
 	hold off
 	print(image3, '-dtiff', '-r300', Output_Graph)
-	
+
+	cd(result_dir4)
+	Output_Graph = [num2str(g),'_DT_edgeLens.tif'];
+	hold off
+	print(image4, '-dtiff', '-r300', Output_Graph)
+
 end
 
 
