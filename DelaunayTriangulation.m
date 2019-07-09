@@ -38,7 +38,7 @@ for g=1:numel(files_tif)
 	cd(filedir);
 	I = [num2str(g),'.tif'];
 	I_im = imread(I);
-	I_im = logical(I_im);
+    I_im = logical(I_im);
 	% extract centroid positions from each point
 	stat = regionprops(I_im, 'centroid');
 	for i=1:length(stat)
