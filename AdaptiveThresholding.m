@@ -33,6 +33,7 @@ for g=1:numel(files_tif)
 	I = [num2str(g),'.tif'];
 	I_im = imread(I);
 	BW = imbinarize(I_im, adaptthresh (I_im, sensitivity));
+    BW = bwareaopen(BW, 50);
 	I_holes = imfill(BW, 'holes');
     I_holes = im2double(I_holes);
 	cd(result_dir);

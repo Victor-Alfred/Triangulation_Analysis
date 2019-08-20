@@ -30,8 +30,8 @@ for g=1:numel(files_tif)
 	I = [num2str(g),'.tif'];
 	I_im = imread(I);
     BW = fibermetric(I_im, 30, 'ObjectPolarity', 'bright', 'StructureSensitivity', 21);
-    B = BW > 0.1;
-    B2 = bwareaopen(B, 150);
+    B = BW > 0.2;
+    B2 = bwareaopen(B, 100);
 	I_holes = imfill(B2, 'holes');
     I_holes = im2double(I_holes);
 	cd(result_dir);
