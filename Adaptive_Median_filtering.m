@@ -39,10 +39,11 @@ for g=1:numel(files_tif)
 	cd(filedir);
 	I = [num2str(g),'.tif'];
 	I_im = imread(I);
-	BW = imbinarize(I_im, adaptthresh (I_im, sensitivity));
-    BW = bwareaopen(BW, small_object_size); % I used 50 here for Arf1GFP images
-	I_holes = imfill(BW, 'holes'); imshow(I_holes)
-    I_holes = im2double(I_holes); 
+	BW = imbinarize(I_im, adaptthresh (I_im, sensitivity)); % use 0.2
+    J = medfilt2(BW); imshow(J)
+    BW2 = bwareaopen(J, small_object_size);  % use 50
+	I_holes = imfill(BW2, 'holes');
+    I_holes = im2double(I_holes); imshow(I_holes)
 	cd(result_dir);
 	imwrite(I_holes, [num2str(g),'.tif'], 'Compression', 'none');
 	dlmwrite('sensitivity.txt',sensitivity)
