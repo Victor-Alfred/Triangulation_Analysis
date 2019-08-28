@@ -63,7 +63,7 @@ for g=1:numel(files_tif)
 	plot(x_centroid, y_centroid, 'b*');
 	ax = gca;
 	ax.YDir = 'reverse'
-
+    
 	%image2 shows centroid positions overlaid on binary image
 	image2 = figure; set(gcf,'Visible', 'off');
 	imshow(I_im)
@@ -71,7 +71,7 @@ for g=1:numel(files_tif)
 	plot(x_centroid, y_centroid, 'b*')
 	ax = gca
 	ax.YDir = 'reverse'
-
+    
 	%image3 triplot of DT analysis using centroid positions
 	image3 =figure; set(gcf,'Visible', 'off');
 	triplot(DT)
