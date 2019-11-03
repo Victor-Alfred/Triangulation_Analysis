@@ -1,2 +1,2 @@
 # Triangulation_Analysis
-Set of scripts to threshold tif images and analyse the distribution of points within them
+Set of scripts to triagulate and analyse clustering of objects 
